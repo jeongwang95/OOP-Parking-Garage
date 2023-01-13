@@ -1,3 +1,4 @@
+import time
 class Garage():
     def __init__(self, parking_spaces):
         self.parking_spaces = parking_spaces
@@ -10,7 +11,7 @@ class Garage():
             print('Sorry! Parking Garage is full!')
         else:
             ticket_no = self.tickets.pop(0)
-            self.current_ticket[ticket_no] = 20
+            self.current_ticket[ticket_no] = time.time()
             self.taken_spaces += 1
             print(f'Here is your ticket. Your ticket number is {ticket_no}')
 
@@ -19,15 +20,19 @@ class Garage():
         ticket_no = int(input("What is your ticket number? "))
 
         if ticket_no in self.current_ticket:
-            print(f"Your ticket number {ticket_no} costs $20.")
-            response = input("Would you like to pay for your ticket now? Enter y/n: ")
-
-            if response.lower().strip() in ('y','yes'):
-                self.current_ticket[ticket_no] = 0
-                print("Thank you for paying your ticket, please exit garage within 15 mins.")
+            if self.current_ticket[ticket_no] == 0:
+                print("Your ticket has already been paid for.")
             else:
-                print("Okay! Please pay before you exit the garage.")
-            
+                end_time = time.time()
+                duration = end_time - self.current_ticket[ticket_no]
+                print(f"Ticket number: {ticket_no}\nYou have been in the garage for {int(duration)} mins. Your parking fee is $20")
+                response = input("Would you like to pay for your ticket now? Enter y/n: ")
+
+                if response.lower().strip() in ('y','yes'):
+                    self.current_ticket[ticket_no] = 0
+                    print("Thank you for paying your ticket, please exit garage within 15 mins.")
+                else:
+                    print("Okay! Please pay before you exit the garage.")           
         else:
             print(f"Ticket number {ticket_no} is not valid. Please double check your ticket number.")
 
@@ -46,7 +51,9 @@ class Garage():
             # ticket has not been paid
             else:
                 print("Your ticket was not paid for. Please pay your ticket before leaving the garage.")
-
+        else:
+            print(f"Ticket number {ticket_no} is not valid. Please double check your ticket number.")
+            
 class Main:
     def run():
         my_garage = Garage(10)
