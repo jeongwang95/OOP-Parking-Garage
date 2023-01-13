@@ -9,19 +9,14 @@ class Garage():
         if self.parking_spaces - self.taken_spaces == 0:
             print('Sorry! Parking Garage is full!')
         else:
-            self.current_ticket[self.tickets.pop(0)] = 20
+            ticket_no = self.tickets.pop(0)
+            self.current_ticket[ticket_no] = 20
             self.taken_spaces += 1
-            print('Here is your ticket.')
-
-# my_garage = Garage(10)
-# my_garage.take_ticket()
-# print(my_garage.tickets)
-# print(my_garage.current_ticket)
-
+            print(f'Here is your ticket. Your ticket number is {ticket_no}')
 
     def pay_for_parking(self):
 
-        ticket_no = int(input(" what is your ticket number? :"))
+        ticket_no = int(input("What is your ticket number? "))
 
         if ticket_no in self.current_ticket:
             print(f"Your ticket number {ticket_no} costs $20.")
@@ -34,7 +29,52 @@ class Garage():
                 print("Okay! Please pay before you exit the garage.")
             
         else:
-            print(f"{ticket_no} is not valid. Please double check your {ticket_no}.")
+            print(f"Ticket number {ticket_no} is not valid. Please double check your ticket number.")
+
+    def leave_garage(self):
+        ticket_no = int(input("What is your ticket number? "))
+
+        # check if ticket number is in our current ticket dict
+        if ticket_no in self.current_ticket:
+            # ticket has been paid for
+            if self.current_ticket[ticket_no] == 0:
+                print("Thank you for using our parking garage. Have a nice day!")
+                self.taken_spaces -= 1
+                del self.current_ticket[ticket_no]
+                self.tickets.append(ticket_no)
+
+            # ticket has not been paid
+            else:
+                print("Your ticket was not paid for. Please pay your ticket before leaving the garage.")
+
+class Main:
+    def run():
+        my_garage = Garage(10)
+
+        while True:
+            print("Welcome to JKT Garage! Please choose from the options below:")
+            print("""
+
+[1] Take a ticket
+[2] Pay for your ticket
+[3] Leave Garage
+[4] Exit application
+
+            """)
+            response = input("Option: ")
+            if response.lower().strip() == '1':
+                my_garage.take_ticket()
+            elif response.lower().strip() == '2':
+                my_garage.pay_for_parking()
+            elif response.lower().strip() == '3':
+                my_garage.leave_garage()
+            elif response.lower().strip() == '4':
+                break
+            else:
+                print('Invalid input. Please try again.')
+
+Main.run()
+
 
         
     
