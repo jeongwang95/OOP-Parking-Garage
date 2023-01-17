@@ -154,7 +154,7 @@ Main Menu:
                 my_garage.pay_for_parking()
             elif response.lower().strip() == 'd':
                 my_garage.leave_garage()
-            elif response.lower().strip() == 'e':
+            elif response.lower().strip() == 'e': # Goes to membership menu
                 while True:
                     print("""
 JKT Members Menu:
@@ -189,8 +189,9 @@ JKT Members Menu:
                             print('Invalid input. Please try again.')
                     # Goes to account manager where members can enter garage, change membership or cc
                     elif decision.lower().strip() == 'a':
-                        num = input("Please input your license plate number: ")
+                        num = input("Please input your license plate number: ") # license plate # used to check membership
                         for member in my_garage.members:
+                            # license plate has been found so the user is a member of JKT. now the program goes to account manager menu
                             if num.lower().strip() == member.plate_num:
                                 while True:
                                     print(f"Hello {member.name}! What would you like to do?")
